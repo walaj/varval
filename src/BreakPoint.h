@@ -1,5 +1,5 @@
-#ifndef VARVAL_BREAKPOINT_H__
-#define VARVAL_BREAKPOINT_H__
+#ifndef SVABA_BREAKPOINT_H__
+#define SVABA_BREAKPOINT_H__
 
 #include <cstdlib>
 #include <string>
@@ -41,6 +41,8 @@ struct ReducedBreakEnd {
    
    void checkLocal(const SeqLib::GenomicRegion& window);
 
+   std::string print(const SeqLib::BamHeader& h) const;
+
    std::string hash(int offset = 0) const;
 
    std::string id;
@@ -61,7 +63,7 @@ struct ReducedBreakEnd {
    double as_frac= 0;
    bool local;
 
-   friend std::ostream& operator<<(std::ostream& out, const BreakEnd& b);
+   //   friend std::ostream& operator<<(std::ostream& out, const BreakEnd& b);
  };
 
  struct ReducedDiscordantCluster {
@@ -101,6 +103,9 @@ struct ReducedBreakEnd {
    // define how to sort these  
    bool operator<(const ReducedBreakPoint& bp) const;
 
+   // print it with the correct chromsome string
+   std::string print(const BreakPoint& b, const SeqLib::BamHeader& h) const;
+
    ReducedBreakPoint() {}
    ~ReducedBreakPoint() {
      smart_check_free(ref);
@@ -131,10 +136,10 @@ struct ReducedBreakEnd {
    double somatic_score = 0;
    double somatic_lod = 0; // LogOdds that variant not in normal
    double true_lod = 0;
-   uint32_t hp1:16, hp2:16; // hp tags for 10X data
 
-   uint32_t nsplit:8, tsplit:8, af_n:7, num_align:5, secondary:1, dbsnp:1, pass:1, blacklist:1, indel:1, imprecise:1;
-   uint32_t tcov_support:8, ncov_support:8, tcov:8, ncov:8;
+   //uint32_t nsplit:8, tsplit:8, 
+   //uint32_t tcov_support:8, ncov_support:8, tcov:8, ncov:8;
+   uint32_t cov:16, af_n:7, num_align:5, secondary:1, dbsnp:1, pass:1, blacklist:1, indel:1, imprecise:1;
    uint32_t tcigar:8, ncigar:8, dummy:8, af_t:8; 
    float quality;
    uint8_t pon;
@@ -146,8 +151,6 @@ struct ReducedBreakEnd {
  struct SampleInfo {
 
    bool indel;
-
-   int repeat_length = 0;
 
    int split = 0;
    int cigar = 0;
@@ -161,7 +164,6 @@ struct ReducedBreakEnd {
    std::string PL;
    std::string genotype;
    std::vector<double> genotype_likelihoods = {0,0,0};
-   std::pair<int, int> hp_table; // store HP tag counts for 10X data
 
    int readlen = 0;
 
@@ -195,7 +197,7 @@ struct ReducedBreakEnd {
  struct BreakPoint {
    
    static std::string header() { 
-     return "chr1\tpos1\tstrand1\tchr2\tpos2\tstrand2\tref\talt\tspan\tmapq1\tmapq2\tnm1\tnm2\tdisc_mapq1\tdisc_mapq2\tsub_n1\tsub_n2\thomology\tinsertion\tcontig\tnumalign\tconfidence\tevidence\tquality\tsecondary_alignment\tsomatic_score\tsomatic_lod\ttrue_lod\tpon_samples\trepeat_seq\tgraylist\tDBSNP\treads\tbxtags"; 
+     return "chr1\tpos1\tstrand1\tchr2\tpos2\tstrand2\tref\talt\tspan\tmapq1\tmapq2\tnm1\tnm2\tdisc_mapq1\tdisc_mapq2\tsplit\tcigar\talt\tcov\tsub_n1\tsub_n2\thomology\tinsertion\tcontig\tnumalign\tconfidence\tevidence\tquality\tsecondary_alignment\tsomatic_score\tsomatic_lod\ttlod\tpon_samples\trepeat_seq\tgraylist\tDBSNP\treads\tbxtags"; 
    }
 
    double somatic_score = 0;
@@ -205,11 +207,7 @@ struct ReducedBreakEnd {
 
    int aligned_covered = 0;
    
-   int repeat_unit_length = 1;
-   std::string seq, cname, rs, insertion, homology, repeat_seq, evidence, confidence, ref, alt, read_names, bxtable;
-
-   // store HP tags from 10X genomes. One per unique read pair
-   std::pair<int32_t, int32_t> hp_table;
+   std::string seq, cname, rs, insertion, homology, repeat_seq, evidence, confidence, ref, alt, read_names, bxtable;   
 
    // count of unique bx tags
    size_t bx_count = 0;
@@ -265,7 +263,7 @@ struct ReducedBreakEnd {
    /** Construct a breakpoint from a cluster of discordant reads
     */
    BreakPoint(DiscordantCluster& tdc, const SeqLib::BWAWrapper * bwa, DiscordantClusterMap& dmap, 
-	      const SeqLib::GenomicRegion& region);
+	      const SeqLib::GenomicRegion& region, const SeqLib::BamHeader& h);
      
    BreakPoint() {}
    
@@ -281,9 +279,8 @@ struct ReducedBreakEnd {
     * it lands on a repeat */
    void repeatFilter();
 
-   // count the 10X HP tags
-   void count_haplotype_tags();
-   
+   std::string print(const SeqLib::BamHeader& h) const;
+
    void __combine_with_discordant_cluster(DiscordantClusterMap& dmap);
    
    /*! @function determine if the breakpoint has split read support
@@ -305,7 +302,7 @@ struct ReducedBreakEnd {
    
    /*! Score a breakpoint with a QUAL score, and as somatic or germline
     */
-   void scoreBreakpoint(double LOD_CUTOFF, double LOD_CUTOFF_DBSNP, double LOD_CUTOFF_SOMATIC, double LOD_CUTOFF_SOMATIC_DBSNP, int min_dscrd_size);
+   void scoreBreakpoint(double LOD_CUTOFF, double LOD_CUTOFF_DBSNP, double LOD_CUTOFF_SOMATIC, double LOD_CUTOFF_SOMATIC_DBSNP, double scale_errors, int min_dscrd_size);
    
    /*! Compute the allelic fraction (tumor and normal) for this BreakPoint.
     *
@@ -392,7 +389,7 @@ struct ReducedBreakEnd {
      return false;
   }
 
-   friend std::ostream& operator<<(std::ostream& out, const BreakPoint& bp);
+   //   friend std::ostream& operator<<(std::ostream& out, const BreakPoint& bp);
    
    void score_dscrd(int min_dscrd_size);
    void score_assembly_only();

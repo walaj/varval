@@ -5,11 +5,11 @@
 #include "SeqLib/ReadFilter.h"
 
 
-class validatorBamWalker: public SeqLib::BamReader {
+class validatorBamReader: public SeqLib::BamReader {
 
  public:
   
-  validatorBamWalker() {}
+  validatorBamReader() {}
 
 };
   

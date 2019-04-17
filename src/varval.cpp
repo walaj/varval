@@ -9,6 +9,8 @@
 
 #include "BEDPE.h"
 #include "SeqLib/BamReader.h"
+#include "SeqLib/BWAWrapper.h"
+#include "ValidatorBamReader.h"
 
 static const char *VARVAL_BAM_USAGE_MESSAGE =
 "Usage: varval <input.bam> [OPTIONS] \n\n"
@@ -124,10 +126,37 @@ int main(int argc, char** argv) {
   BEDPE pe;
   pe.ReadBEDPE(opt::bedpe, opt::hdr);
 
+  // "Reference genome" for contigs
+  SeqLib::UnalignedSequenceVector vec;
+  size_t contig_id = 0;
   for (auto& i : pe.bedpe) {
-    std::cout << ">" << i.id << std::endl;
-    std::cout << i.convertToContig(opt::ref, opt::hdr, opt::pad) << std::endl;
+    //std::cout << ">" << i.id << std::endl;
+    //std::cout << i.convertToContig(opt::ref, opt::hdr, opt::pad) << std::endl;
+    vec.push_back(SeqLib::UnalignedSequence(std::to_string(contig_id), 
+					    i.convertToContig(opt::ref, opt::hdr, opt::pad)));
+    ++contig_id;
   }
+
+  //
+  SeqLib::BWAWrapper contig_ref;
+  contig_ref.ConstructIndex(vec);
+
+  validatorBamReader vread;
+  vread.Open(opt::tumor_bam);
+  
+  SeqLib::BamRecord r;
+  size_t count = 0;
+  while (vread.GetNextRecord(r)) {
+
+    SeqLib::BamRecordVector v;
+    contig_ref.AlignSequence(r.Sequence(), r.Qname(), v, false, 0.60, 10);
+    
+    ++count;
+    if (count % 5000 == 0)
+      std::cerr << count << std::endl;
+  }
+
+  
 
   return 0;
 

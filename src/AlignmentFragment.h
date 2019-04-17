@@ -8,6 +8,7 @@
 #include <string>
 #include <set>
 #include "BreakPoint.h"
+#include "svaba_params.h"
 
 #define MAX_CONTIG_SIZE 5000000
 
@@ -36,7 +37,7 @@ class AlignedContig;
     void indelCigarMatches(const std::unordered_map<std::string, SeqLib::CigarMap>& cmap);
     
     // print the AlignmentFragment
-    friend std::ostream& operator<<(std::ostream &out, const AlignmentFragment& c); 
+    std::string print() const;
 
     BreakEnd makeBreakEnd(bool left);
     
