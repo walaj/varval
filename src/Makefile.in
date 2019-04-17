@@ -100,7 +100,11 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_varval_OBJECTS = varval-varval.$(OBJEXT) varval-gzstream.$(OBJEXT) \
-	varval-ValidatorBamReader.$(OBJEXT)
+	varval-ValidatorBamReader.$(OBJEXT) \
+	varval-BreakPoint.$(OBJEXT) varval-AlignmentFragment.$(OBJEXT) \
+	varval-svabaRead.$(OBJEXT) varval-DiscordantCluster.$(OBJEXT) \
+	varval-AlignedContig.$(OBJEXT) varval-varval_utils.$(OBJEXT) \
+	varval-STCoverage.$(OBJEXT)
 varval_OBJECTS = $(am_varval_OBJECTS)
 varval_DEPENDENCIES = $(top_builddir)/SeqLib/src/libseqlib.a \
 	$(top_builddir)/SeqLib/bwa/libbwa.a \
@@ -120,8 +124,15 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/varval-ValidatorBamReader.Po \
-	./$(DEPDIR)/varval-gzstream.Po ./$(DEPDIR)/varval-varval.Po
+am__depfiles_remade = ./$(DEPDIR)/varval-AlignedContig.Po \
+	./$(DEPDIR)/varval-AlignmentFragment.Po \
+	./$(DEPDIR)/varval-BreakPoint.Po \
+	./$(DEPDIR)/varval-DiscordantCluster.Po \
+	./$(DEPDIR)/varval-STCoverage.Po \
+	./$(DEPDIR)/varval-ValidatorBamReader.Po \
+	./$(DEPDIR)/varval-gzstream.Po ./$(DEPDIR)/varval-svabaRead.Po \
+	./$(DEPDIR)/varval-varval.Po \
+	./$(DEPDIR)/varval-varval_utils.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -273,7 +284,9 @@ varval_LDADD = \
 	$(top_builddir)/SeqLib/bwa/libbwa.a \
 	$(top_builddir)/SeqLib/htslib/libhts.a -llzma -lbz2
 
-varval_SOURCES = varval.cpp gzstream.C ValidatorBamReader.cpp
+varval_SOURCES = varval.cpp gzstream.C ValidatorBamReader.cpp BreakPoint.cpp AlignmentFragment.cpp svabaRead.cpp \
+		DiscordantCluster.cpp AlignedContig.cpp varval_utils.cpp STCoverage.cpp
+
 all: all-am
 
 .SUFFIXES:
@@ -360,9 +373,16 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-AlignedContig.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-AlignmentFragment.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-BreakPoint.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-DiscordantCluster.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-STCoverage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-ValidatorBamReader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-gzstream.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-svabaRead.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-varval.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-varval_utils.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -425,6 +445,104 @@ varval-ValidatorBamReader.obj: ValidatorBamReader.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ValidatorBamReader.cpp' object='varval-ValidatorBamReader.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-ValidatorBamReader.obj `if test -f 'ValidatorBamReader.cpp'; then $(CYGPATH_W) 'ValidatorBamReader.cpp'; else $(CYGPATH_W) '$(srcdir)/ValidatorBamReader.cpp'; fi`
+
+varval-BreakPoint.o: BreakPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-BreakPoint.o -MD -MP -MF $(DEPDIR)/varval-BreakPoint.Tpo -c -o varval-BreakPoint.o `test -f 'BreakPoint.cpp' || echo '$(srcdir)/'`BreakPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-BreakPoint.Tpo $(DEPDIR)/varval-BreakPoint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='BreakPoint.cpp' object='varval-BreakPoint.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-BreakPoint.o `test -f 'BreakPoint.cpp' || echo '$(srcdir)/'`BreakPoint.cpp
+
+varval-BreakPoint.obj: BreakPoint.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-BreakPoint.obj -MD -MP -MF $(DEPDIR)/varval-BreakPoint.Tpo -c -o varval-BreakPoint.obj `if test -f 'BreakPoint.cpp'; then $(CYGPATH_W) 'BreakPoint.cpp'; else $(CYGPATH_W) '$(srcdir)/BreakPoint.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-BreakPoint.Tpo $(DEPDIR)/varval-BreakPoint.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='BreakPoint.cpp' object='varval-BreakPoint.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-BreakPoint.obj `if test -f 'BreakPoint.cpp'; then $(CYGPATH_W) 'BreakPoint.cpp'; else $(CYGPATH_W) '$(srcdir)/BreakPoint.cpp'; fi`
+
+varval-AlignmentFragment.o: AlignmentFragment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-AlignmentFragment.o -MD -MP -MF $(DEPDIR)/varval-AlignmentFragment.Tpo -c -o varval-AlignmentFragment.o `test -f 'AlignmentFragment.cpp' || echo '$(srcdir)/'`AlignmentFragment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-AlignmentFragment.Tpo $(DEPDIR)/varval-AlignmentFragment.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='AlignmentFragment.cpp' object='varval-AlignmentFragment.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-AlignmentFragment.o `test -f 'AlignmentFragment.cpp' || echo '$(srcdir)/'`AlignmentFragment.cpp
+
+varval-AlignmentFragment.obj: AlignmentFragment.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-AlignmentFragment.obj -MD -MP -MF $(DEPDIR)/varval-AlignmentFragment.Tpo -c -o varval-AlignmentFragment.obj `if test -f 'AlignmentFragment.cpp'; then $(CYGPATH_W) 'AlignmentFragment.cpp'; else $(CYGPATH_W) '$(srcdir)/AlignmentFragment.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-AlignmentFragment.Tpo $(DEPDIR)/varval-AlignmentFragment.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='AlignmentFragment.cpp' object='varval-AlignmentFragment.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-AlignmentFragment.obj `if test -f 'AlignmentFragment.cpp'; then $(CYGPATH_W) 'AlignmentFragment.cpp'; else $(CYGPATH_W) '$(srcdir)/AlignmentFragment.cpp'; fi`
+
+varval-svabaRead.o: svabaRead.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-svabaRead.o -MD -MP -MF $(DEPDIR)/varval-svabaRead.Tpo -c -o varval-svabaRead.o `test -f 'svabaRead.cpp' || echo '$(srcdir)/'`svabaRead.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-svabaRead.Tpo $(DEPDIR)/varval-svabaRead.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='svabaRead.cpp' object='varval-svabaRead.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-svabaRead.o `test -f 'svabaRead.cpp' || echo '$(srcdir)/'`svabaRead.cpp
+
+varval-svabaRead.obj: svabaRead.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-svabaRead.obj -MD -MP -MF $(DEPDIR)/varval-svabaRead.Tpo -c -o varval-svabaRead.obj `if test -f 'svabaRead.cpp'; then $(CYGPATH_W) 'svabaRead.cpp'; else $(CYGPATH_W) '$(srcdir)/svabaRead.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-svabaRead.Tpo $(DEPDIR)/varval-svabaRead.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='svabaRead.cpp' object='varval-svabaRead.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-svabaRead.obj `if test -f 'svabaRead.cpp'; then $(CYGPATH_W) 'svabaRead.cpp'; else $(CYGPATH_W) '$(srcdir)/svabaRead.cpp'; fi`
+
+varval-DiscordantCluster.o: DiscordantCluster.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-DiscordantCluster.o -MD -MP -MF $(DEPDIR)/varval-DiscordantCluster.Tpo -c -o varval-DiscordantCluster.o `test -f 'DiscordantCluster.cpp' || echo '$(srcdir)/'`DiscordantCluster.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-DiscordantCluster.Tpo $(DEPDIR)/varval-DiscordantCluster.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DiscordantCluster.cpp' object='varval-DiscordantCluster.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-DiscordantCluster.o `test -f 'DiscordantCluster.cpp' || echo '$(srcdir)/'`DiscordantCluster.cpp
+
+varval-DiscordantCluster.obj: DiscordantCluster.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-DiscordantCluster.obj -MD -MP -MF $(DEPDIR)/varval-DiscordantCluster.Tpo -c -o varval-DiscordantCluster.obj `if test -f 'DiscordantCluster.cpp'; then $(CYGPATH_W) 'DiscordantCluster.cpp'; else $(CYGPATH_W) '$(srcdir)/DiscordantCluster.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-DiscordantCluster.Tpo $(DEPDIR)/varval-DiscordantCluster.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='DiscordantCluster.cpp' object='varval-DiscordantCluster.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-DiscordantCluster.obj `if test -f 'DiscordantCluster.cpp'; then $(CYGPATH_W) 'DiscordantCluster.cpp'; else $(CYGPATH_W) '$(srcdir)/DiscordantCluster.cpp'; fi`
+
+varval-AlignedContig.o: AlignedContig.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-AlignedContig.o -MD -MP -MF $(DEPDIR)/varval-AlignedContig.Tpo -c -o varval-AlignedContig.o `test -f 'AlignedContig.cpp' || echo '$(srcdir)/'`AlignedContig.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-AlignedContig.Tpo $(DEPDIR)/varval-AlignedContig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='AlignedContig.cpp' object='varval-AlignedContig.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-AlignedContig.o `test -f 'AlignedContig.cpp' || echo '$(srcdir)/'`AlignedContig.cpp
+
+varval-AlignedContig.obj: AlignedContig.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-AlignedContig.obj -MD -MP -MF $(DEPDIR)/varval-AlignedContig.Tpo -c -o varval-AlignedContig.obj `if test -f 'AlignedContig.cpp'; then $(CYGPATH_W) 'AlignedContig.cpp'; else $(CYGPATH_W) '$(srcdir)/AlignedContig.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-AlignedContig.Tpo $(DEPDIR)/varval-AlignedContig.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='AlignedContig.cpp' object='varval-AlignedContig.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-AlignedContig.obj `if test -f 'AlignedContig.cpp'; then $(CYGPATH_W) 'AlignedContig.cpp'; else $(CYGPATH_W) '$(srcdir)/AlignedContig.cpp'; fi`
+
+varval-varval_utils.o: varval_utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-varval_utils.o -MD -MP -MF $(DEPDIR)/varval-varval_utils.Tpo -c -o varval-varval_utils.o `test -f 'varval_utils.cpp' || echo '$(srcdir)/'`varval_utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-varval_utils.Tpo $(DEPDIR)/varval-varval_utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='varval_utils.cpp' object='varval-varval_utils.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-varval_utils.o `test -f 'varval_utils.cpp' || echo '$(srcdir)/'`varval_utils.cpp
+
+varval-varval_utils.obj: varval_utils.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-varval_utils.obj -MD -MP -MF $(DEPDIR)/varval-varval_utils.Tpo -c -o varval-varval_utils.obj `if test -f 'varval_utils.cpp'; then $(CYGPATH_W) 'varval_utils.cpp'; else $(CYGPATH_W) '$(srcdir)/varval_utils.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-varval_utils.Tpo $(DEPDIR)/varval-varval_utils.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='varval_utils.cpp' object='varval-varval_utils.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-varval_utils.obj `if test -f 'varval_utils.cpp'; then $(CYGPATH_W) 'varval_utils.cpp'; else $(CYGPATH_W) '$(srcdir)/varval_utils.cpp'; fi`
+
+varval-STCoverage.o: STCoverage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-STCoverage.o -MD -MP -MF $(DEPDIR)/varval-STCoverage.Tpo -c -o varval-STCoverage.o `test -f 'STCoverage.cpp' || echo '$(srcdir)/'`STCoverage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-STCoverage.Tpo $(DEPDIR)/varval-STCoverage.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='STCoverage.cpp' object='varval-STCoverage.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-STCoverage.o `test -f 'STCoverage.cpp' || echo '$(srcdir)/'`STCoverage.cpp
+
+varval-STCoverage.obj: STCoverage.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-STCoverage.obj -MD -MP -MF $(DEPDIR)/varval-STCoverage.Tpo -c -o varval-STCoverage.obj `if test -f 'STCoverage.cpp'; then $(CYGPATH_W) 'STCoverage.cpp'; else $(CYGPATH_W) '$(srcdir)/STCoverage.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-STCoverage.Tpo $(DEPDIR)/varval-STCoverage.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='STCoverage.cpp' object='varval-STCoverage.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-STCoverage.obj `if test -f 'STCoverage.cpp'; then $(CYGPATH_W) 'STCoverage.cpp'; else $(CYGPATH_W) '$(srcdir)/STCoverage.cpp'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -567,9 +685,16 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
+		-rm -f ./$(DEPDIR)/varval-AlignedContig.Po
+	-rm -f ./$(DEPDIR)/varval-AlignmentFragment.Po
+	-rm -f ./$(DEPDIR)/varval-BreakPoint.Po
+	-rm -f ./$(DEPDIR)/varval-DiscordantCluster.Po
+	-rm -f ./$(DEPDIR)/varval-STCoverage.Po
+	-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
 	-rm -f ./$(DEPDIR)/varval-gzstream.Po
+	-rm -f ./$(DEPDIR)/varval-svabaRead.Po
 	-rm -f ./$(DEPDIR)/varval-varval.Po
+	-rm -f ./$(DEPDIR)/varval-varval_utils.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -615,9 +740,16 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
+		-rm -f ./$(DEPDIR)/varval-AlignedContig.Po
+	-rm -f ./$(DEPDIR)/varval-AlignmentFragment.Po
+	-rm -f ./$(DEPDIR)/varval-BreakPoint.Po
+	-rm -f ./$(DEPDIR)/varval-DiscordantCluster.Po
+	-rm -f ./$(DEPDIR)/varval-STCoverage.Po
+	-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
 	-rm -f ./$(DEPDIR)/varval-gzstream.Po
+	-rm -f ./$(DEPDIR)/varval-svabaRead.Po
 	-rm -f ./$(DEPDIR)/varval-varval.Po
+	-rm -f ./$(DEPDIR)/varval-varval_utils.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

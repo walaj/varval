@@ -5,9 +5,8 @@
 #include <cassert>
 
 #include "gzstream.h"
-#include "svabaUtils.h"
-
-#include "svaba_params.h"
+#include "varval_utils.h"
+#include "varval_params.h"
 
 // n is the max integer given the int size (e.g. 255). x is string with int
 #define INTNSTOI(x,n) std::min((int)n, std::stoi(x));

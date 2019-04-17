@@ -1,5 +1,5 @@
-#ifndef SVABA_UTILS_H__
-#define SVABA_UTILS_H__
+#ifndef VARVAL_UTILS_H__
+#define VARVAL_UTILS_H__
 
 #include <ctime>
 #include <sstream>

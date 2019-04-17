@@ -1,6 +1,6 @@
 #include "AlignedContig.h"
 #include "PlottedRead.h"
-#include "svabaUtils.h"
+#include "varval_utils.h"
 
 AlignedContig::AlignedContig(const SeqLib::BamRecordVector& bav, const std::set<std::string>& pref) {
     
