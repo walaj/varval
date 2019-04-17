@@ -83,7 +83,6 @@ bool BEDPE::ReadBEDPE(const std::string & file, const SeqLib::BamHeader& hdr) {
   
   // http://www.lemoda.net/c/gzfile-read/
   while (1) {
-    
     int err;                    
     char buffer[GZBUFFER];
     gzgets(fp, buffer, GZBUFFER);
@@ -101,7 +100,7 @@ bool BEDPE::ReadBEDPE(const std::string & file, const SeqLib::BamHeader& hdr) {
 	}
       }
     }
-    
+
     // prepare to loop through each field of BED line
     std::string chr, pos1, pos2, o1;
     std::string Bchr, Bpos1, Bpos2, Bo1;
@@ -112,13 +111,15 @@ bool BEDPE::ReadBEDPE(const std::string & file, const SeqLib::BamHeader& hdr) {
       continue;
     
     // read first three BED columns
-    iss_line >> chr >> pos1 >> pos2 >> o1 >> Bchr >> Bpos1 >> Bpos2 >> Bo1;
-
+    iss_line >> chr >> pos1 >> pos2 >> Bchr >> Bpos1 >> Bpos2 >> o1 >> Bo1;
+    
     // construct the GenomicRegion
     SeqLib::GenomicRegion g1(chr, pos1, pos2, hdr);
     SeqLib::GenomicRegion g2(Bchr, Bpos1, Bpos2, hdr);
-    g1.strand = o1.at(0);
-    g2.strand = Bo1.at(0);
+    if (o1.length())
+      g1.strand = o1.at(0);
+    if (Bo1.length())
+      g2.strand = Bo1.at(0);
 
     BEDPEEntry pe(g1, g2);
     pe.id = chr + ":" + pos1 + o1 + "__" + Bchr + ":" + Bpos1 + Bo1;

@@ -18,7 +18,7 @@ static const char *VARVAL_BAM_USAGE_MESSAGE =
 "      --help                           Display this help and exit\n"
 "  -v, --verbose                        Verbose output\n"
 " Required input\n"
-"  -f, --vcf-file                       VCF file containing rearrangements\n"
+"  -f, --bedpe                          BEDPE file containing rearrangements\n"
 "  -t, --tumor-bam                      Tumor bam file. Can input any number with extra -t calls\n"
 "  -n, --normal-bam                     Normal bam file. Can input any number with extra -t calls\n"
 "  -G, --reference-genome               Path to indexed reference genome [Broads HG19]\n"
@@ -70,7 +70,7 @@ static const char* shortopts = "hvG:t:n:f:k:a:eA:";
 static const struct option longopts[] = {
   { "help",                       no_argument, NULL, OPT_HELP },
   { "verbose",                    no_argument, NULL, 'v' },
-  { "bedpe-file",                   required_argument, NULL, 'f' },
+  { "bedpe",                      required_argument, NULL, 'f' },
   { "alignment-score-frac",       required_argument, NULL, 'A' },
   { "tumor-bam",                  required_argument, NULL, 't' },
   { "normal-bam",                 required_argument, NULL, 'n' },
