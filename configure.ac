@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59) ## specificy version of autoconf
-AC_INIT(validator, 0.0, jwala@broadinstitute.org)
+AC_INIT(validator, 0.0, jeremiah.wala@gmail.com)
 AM_INIT_AUTOMAKE(foreign)
 AC_CONFIG_SRCDIR([src/validator.cpp])
 AC_CONFIG_HEADER([config.h])
@@ -42,8 +42,7 @@ if test "$enable_development"; then
 fi
 
 # Set compiler flags.
-AC_SUBST(AM_CXXFLAGS, "-g -std=c++11 -Wall -Wextra $fail_on_warning -Wno-unknown-pragmas")
-##AC_SUBST(AM_CXXFLAGS, "-g -Wall -Wextra $fail_on_warning -Wno-unknown-pragmas")
+AC_SUBST(AM_CXXFLAGS, "-std=c++11 -Wall -Wextra $fail_on_warning -Wno-unknown-pragmas")
 AC_SUBST(CXXFLAGS, "$CXXFLAGS -O3")
 AC_SUBST(CFLAGS, "$CFLAGS -O3")
 AC_SUBST(CPPFLAGS, "$CPPFLAGS $boost_include")
