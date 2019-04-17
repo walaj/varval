@@ -99,7 +99,8 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_varval_OBJECTS = varval-varval.$(OBJEXT) varval-gzstream.$(OBJEXT)
+am_varval_OBJECTS = varval-varval.$(OBJEXT) varval-gzstream.$(OBJEXT) \
+	varval-ValidatorBamReader.$(OBJEXT)
 varval_OBJECTS = $(am_varval_OBJECTS)
 varval_DEPENDENCIES = $(top_builddir)/SeqLib/src/libseqlib.a \
 	$(top_builddir)/SeqLib/bwa/libbwa.a \
@@ -119,8 +120,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/varval-gzstream.Po \
-	./$(DEPDIR)/varval-varval.Po
+am__depfiles_remade = ./$(DEPDIR)/varval-ValidatorBamReader.Po \
+	./$(DEPDIR)/varval-gzstream.Po ./$(DEPDIR)/varval-varval.Po
 am__mv = mv -f
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -272,7 +273,7 @@ varval_LDADD = \
 	$(top_builddir)/SeqLib/bwa/libbwa.a \
 	$(top_builddir)/SeqLib/htslib/libhts.a -llzma -lbz2
 
-varval_SOURCES = varval.cpp gzstream.C
+varval_SOURCES = varval.cpp gzstream.C ValidatorBamReader.cpp
 all: all-am
 
 .SUFFIXES:
@@ -359,6 +360,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-ValidatorBamReader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-gzstream.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-varval.Po@am__quote@ # am--include-marker
 
@@ -409,6 +411,20 @@ varval-gzstream.obj: gzstream.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='gzstream.C' object='varval-gzstream.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-gzstream.obj `if test -f 'gzstream.C'; then $(CYGPATH_W) 'gzstream.C'; else $(CYGPATH_W) '$(srcdir)/gzstream.C'; fi`
+
+varval-ValidatorBamReader.o: ValidatorBamReader.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-ValidatorBamReader.o -MD -MP -MF $(DEPDIR)/varval-ValidatorBamReader.Tpo -c -o varval-ValidatorBamReader.o `test -f 'ValidatorBamReader.cpp' || echo '$(srcdir)/'`ValidatorBamReader.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-ValidatorBamReader.Tpo $(DEPDIR)/varval-ValidatorBamReader.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ValidatorBamReader.cpp' object='varval-ValidatorBamReader.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-ValidatorBamReader.o `test -f 'ValidatorBamReader.cpp' || echo '$(srcdir)/'`ValidatorBamReader.cpp
+
+varval-ValidatorBamReader.obj: ValidatorBamReader.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-ValidatorBamReader.obj -MD -MP -MF $(DEPDIR)/varval-ValidatorBamReader.Tpo -c -o varval-ValidatorBamReader.obj `if test -f 'ValidatorBamReader.cpp'; then $(CYGPATH_W) 'ValidatorBamReader.cpp'; else $(CYGPATH_W) '$(srcdir)/ValidatorBamReader.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-ValidatorBamReader.Tpo $(DEPDIR)/varval-ValidatorBamReader.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='ValidatorBamReader.cpp' object='varval-ValidatorBamReader.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-ValidatorBamReader.obj `if test -f 'ValidatorBamReader.cpp'; then $(CYGPATH_W) 'ValidatorBamReader.cpp'; else $(CYGPATH_W) '$(srcdir)/ValidatorBamReader.cpp'; fi`
 
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -551,7 +567,8 @@ clean: clean-am
 clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/varval-gzstream.Po
+		-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
+	-rm -f ./$(DEPDIR)/varval-gzstream.Po
 	-rm -f ./$(DEPDIR)/varval-varval.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
@@ -598,7 +615,8 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/varval-gzstream.Po
+		-rm -f ./$(DEPDIR)/varval-ValidatorBamReader.Po
+	-rm -f ./$(DEPDIR)/varval-gzstream.Po
 	-rm -f ./$(DEPDIR)/varval-varval.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic

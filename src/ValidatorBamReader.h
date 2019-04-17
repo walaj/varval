@@ -11,7 +11,7 @@ class validatorBamWalker: public SeqLib::BamReader {
   
   validatorBamWalker() {}
 
-}
+};
   
 
 #endif
