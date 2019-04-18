@@ -12,7 +12,7 @@ struct r2c {
   int32_t start_on_contig = 0;  // start pos on contig (from r.Position()) 
   int32_t end_on_contig   = 0;  // end pos on contig (from r.PositionEnd()) 
   int32_t start_on_read    = 0; // start pos on read (from r.AlignmentPosition())
-  int32_t end_on_read     = 0;  // end pos on read (from r.AlignmentPosition())
+  //int32_t end_on_read     = 0;  // end pos on read (from r.AlignmentPosition())
   bool rc = false;    // reverse complement wrt contig? 
   SeqLib::Cigar cig; // cigar of read to contig
   bool supports_var = false; // does this support a variant?

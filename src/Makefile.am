@@ -15,4 +15,4 @@ varval_LDADD = \
 ##			gzstream.C
 
 varval_SOURCES = varval.cpp gzstream.C ValidatorBamReader.cpp BreakPoint.cpp AlignmentFragment.cpp svabaRead.cpp \
-		DiscordantCluster.cpp AlignedContig.cpp varval_utils.cpp STCoverage.cpp
+		DiscordantCluster.cpp AlignedContig.cpp varval_utils.cpp STCoverage.cpp BEDPE.cpp

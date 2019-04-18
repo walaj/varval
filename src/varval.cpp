@@ -11,6 +11,7 @@
 #include "SeqLib/BamReader.h"
 #include "SeqLib/BWAWrapper.h"
 #include "ValidatorBamReader.h"
+#include "AlignedContig.h"
 
 static const char *VARVAL_BAM_USAGE_MESSAGE =
 "Usage: varval <input.bam> [OPTIONS] \n\n"
@@ -33,10 +34,9 @@ static const char *VARVAL_BAM_USAGE_MESSAGE =
 
 typedef std::unordered_map<std::string, std::string> BamMap;
 
-std::set<std::string> prefixes;
-
 static struct timespec start;
 static ogzstream all_align, all_bps;
+static std::set<std::string> prefixes;
 
 namespace opt {
 
@@ -122,38 +122,110 @@ int main(int argc, char** argv) {
   opt::ref.LoadIndex(opt::reference);
 
   // open the BED file
-  std::cerr << "parsing input " << opt::bedpe << std::endl;
+  std::cerr << "...parsing input " << opt::bedpe << std::endl;
   BEDPE pe;
   pe.ReadBEDPE(opt::bedpe, opt::hdr);
+
+  // create the aligned contigs
+  std::vector<AlignedContig> ac;
+
+  // THIS IS TEMP FIX. BETTER TO SAY WHAT ALIGNMENTS ARE
+  // do the main realignment
+  SeqLib::BWAWrapper main_bwa;
+  std::cerr << "...loading reference: " << opt::reference << std::endl;
+  main_bwa.LoadIndex(opt::reference);
 
   // "Reference genome" for contigs
   SeqLib::UnalignedSequenceVector vec;
   size_t contig_id = 0;
+
   for (auto& i : pe.bedpe) {
-    //std::cout << ">" << i.id << std::endl;
-    //std::cout << i.convertToContig(opt::ref, opt::hdr, opt::pad) << std::endl;
+
     vec.push_back(SeqLib::UnalignedSequence(std::to_string(contig_id), 
 					    i.convertToContig(opt::ref, opt::hdr, opt::pad)));
-    ++contig_id;
+
+
+
+    // THIS IS TEMP FIX
+    SeqLib::BamRecordVector ct_alignments;
+    main_bwa.AlignSequence(vec.back().Seq, vec.back().Name, ct_alignments, false, 0.7, 2);
+    // add in the chrosome name tag for human alignments
+    for (auto& r : ct_alignments) {
+      assert(main_bwa.ChrIDToName(r.ChrID()).length());
+      r.AddZTag("MC", main_bwa.ChrIDToName(r.ChrID()));
+    }
+
+    ac.push_back(AlignedContig(ct_alignments, prefixes));
+
+    ++contig_id;    
+
   }
 
   //
   SeqLib::BWAWrapper contig_ref;
   contig_ref.ConstructIndex(vec);
 
-  validatorBamReader vread;
-  vread.Open(opt::tumor_bam);
-  
-  SeqLib::BamRecord r;
-  size_t count = 0;
-  while (vread.GetNextRecord(r)) {
+  // set up custom alignment parameters, mean
+  contig_ref.SetGapOpen(16); // default 6
+  contig_ref.SetMismatchPenalty(9); // default 4
 
+  // needed for aligned contig
+  for (auto& b : opt::bam)
+    prefixes.insert(b.first);
+  
+  // setup the BAM reader
+  validatorBamReader walk;
+  walk.prefix = "t000";
+  walk.Open(opt::tumor_bam);
+  
+  size_t count = 0, total_alignments = 0;;
+  svabaRead s; 
+
+  while (walk.GetNextFilteredRecord(s)) {
+
+    if (s.SeqLength() < 30)
+      continue;
+
+    // align to the contigs
     SeqLib::BamRecordVector v;
-    contig_ref.AlignSequence(r.Sequence(), r.Qname(), v, false, 0.60, 10);
-    
+    contig_ref.AlignSequence(s.Seq(), s.Qname(), v, false, 0.60, 10);
+  
+    total_alignments += v.size();
+
+    // convert r2c alignments to a svabaReadVector
+    svabaReadVector brv_svaba;
+    for (auto& r : v)
+      brv_svaba.push_back(svabaRead(r, s.Prefix()));
+    v.clear();
+
+    // add each r2c alignment
+    for (auto& r : brv_svaba) {
+
+      r2c this_r2c; // alignment of this read to this contig
+      if (r.ReverseFlag())
+	this_r2c.rc = true;
+     
+      this_r2c.AddAlignment(r);
+      
+      s.AddR2C(std::to_string(r.ChrID()), this_r2c); 
+
+      // add the read to the contig
+      ac[r.ChrID()].AddAlignedRead(s);
+ 
+    }
+
     ++count;
-    if (count % 5000 == 0)
-      std::cerr << count << std::endl;
+    if (count % 50000 == 0) {
+      std::cerr << "...working on " << s.ChrName(walk.Header()) << ":" 
+		<< SeqLib::AddCommas<int>(s.Position()) << " TA: " 
+		<< SeqLib::AddCommas<size_t>(total_alignments) 
+		<< std::endl;
+
+      if (s.Position() > 1200000) {
+	std::cout << ac[0].print(walk.Header());
+	return 0;
+      }
+    }
   }
 
   

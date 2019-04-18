@@ -3,13 +3,21 @@
 
 #include "SeqLib/BamReader.h"
 #include "SeqLib/ReadFilter.h"
-
+#include "svabaRead.h"
 
 class validatorBamReader: public SeqLib::BamReader {
 
  public:
   
   validatorBamReader() {}
+
+  bool GetNextFilteredRecord(svabaRead& s);
+
+  void readBam();
+
+  void QualityTrimRead(svabaRead& r) const;
+
+  std::string prefix;
 
 };
   

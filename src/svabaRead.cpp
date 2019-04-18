@@ -3,19 +3,18 @@
 svabaRead::svabaRead() : seq(nullptr) { }
 
 std::ostream& operator<<(std::ostream& out, const r2c& a) {
-  out << "[" << a.start_on_contig << "," << a.end_on_contig << "] -- " 
-      << "[" << a.start_on_read << "," 
-      << a.end_on_read << "] " << a.cig;
+  out << "contig [" << a.start_on_contig << "," << a.end_on_contig << "] -- " 
+      << "read [" << a.start_on_read << "] " 
+      << a.cig;
   return out;
 }
 
 svabaRead::svabaRead(const SeqLib::BamRecord r, const std::string& prefix) {
-
-    b = r.shared_pointer();
-    seq = nullptr;
-    assert(prefix.length() >= 4);
-    memcpy(p, prefix.data(), 4);
-  }
+  b = r.shared_pointer();
+  seq = nullptr;
+  assert(prefix.length() >= 4);
+  memcpy(p, prefix.data(), 4);
+}
 
 std::string svabaRead::Prefix() const { 
   assert(p[0]=='t' || p[0] == 'n');
@@ -24,7 +23,6 @@ std::string svabaRead::Prefix() const {
 
 std::string svabaRead::Seq() const {
 
-  assert(seq);
   if (!seq)
     return Sequence();
   else
