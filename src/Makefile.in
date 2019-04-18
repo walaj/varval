@@ -104,7 +104,7 @@ am_varval_OBJECTS = varval-varval.$(OBJEXT) varval-gzstream.$(OBJEXT) \
 	varval-BreakPoint.$(OBJEXT) varval-AlignmentFragment.$(OBJEXT) \
 	varval-svabaRead.$(OBJEXT) varval-DiscordantCluster.$(OBJEXT) \
 	varval-AlignedContig.$(OBJEXT) varval-varval_utils.$(OBJEXT) \
-	varval-STCoverage.$(OBJEXT)
+	varval-STCoverage.$(OBJEXT) varval-BEDPE.$(OBJEXT)
 varval_OBJECTS = $(am_varval_OBJECTS)
 varval_DEPENDENCIES = $(top_builddir)/SeqLib/src/libseqlib.a \
 	$(top_builddir)/SeqLib/bwa/libbwa.a \
@@ -126,7 +126,7 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/varval-AlignedContig.Po \
 	./$(DEPDIR)/varval-AlignmentFragment.Po \
-	./$(DEPDIR)/varval-BreakPoint.Po \
+	./$(DEPDIR)/varval-BEDPE.Po ./$(DEPDIR)/varval-BreakPoint.Po \
 	./$(DEPDIR)/varval-DiscordantCluster.Po \
 	./$(DEPDIR)/varval-STCoverage.Po \
 	./$(DEPDIR)/varval-ValidatorBamReader.Po \
@@ -285,7 +285,7 @@ varval_LDADD = \
 	$(top_builddir)/SeqLib/htslib/libhts.a -llzma -lbz2
 
 varval_SOURCES = varval.cpp gzstream.C ValidatorBamReader.cpp BreakPoint.cpp AlignmentFragment.cpp svabaRead.cpp \
-		DiscordantCluster.cpp AlignedContig.cpp varval_utils.cpp STCoverage.cpp
+		DiscordantCluster.cpp AlignedContig.cpp varval_utils.cpp STCoverage.cpp BEDPE.cpp
 
 all: all-am
 
@@ -375,6 +375,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-AlignedContig.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-AlignmentFragment.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-BEDPE.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-BreakPoint.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-DiscordantCluster.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/varval-STCoverage.Po@am__quote@ # am--include-marker
@@ -544,6 +545,20 @@ varval-STCoverage.obj: STCoverage.cpp
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-STCoverage.obj `if test -f 'STCoverage.cpp'; then $(CYGPATH_W) 'STCoverage.cpp'; else $(CYGPATH_W) '$(srcdir)/STCoverage.cpp'; fi`
 
+varval-BEDPE.o: BEDPE.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-BEDPE.o -MD -MP -MF $(DEPDIR)/varval-BEDPE.Tpo -c -o varval-BEDPE.o `test -f 'BEDPE.cpp' || echo '$(srcdir)/'`BEDPE.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-BEDPE.Tpo $(DEPDIR)/varval-BEDPE.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='BEDPE.cpp' object='varval-BEDPE.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-BEDPE.o `test -f 'BEDPE.cpp' || echo '$(srcdir)/'`BEDPE.cpp
+
+varval-BEDPE.obj: BEDPE.cpp
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -MT varval-BEDPE.obj -MD -MP -MF $(DEPDIR)/varval-BEDPE.Tpo -c -o varval-BEDPE.obj `if test -f 'BEDPE.cpp'; then $(CYGPATH_W) 'BEDPE.cpp'; else $(CYGPATH_W) '$(srcdir)/BEDPE.cpp'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/varval-BEDPE.Tpo $(DEPDIR)/varval-BEDPE.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='BEDPE.cpp' object='varval-BEDPE.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(varval_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS) -c -o varval-BEDPE.obj `if test -f 'BEDPE.cpp'; then $(CYGPATH_W) 'BEDPE.cpp'; else $(CYGPATH_W) '$(srcdir)/BEDPE.cpp'; fi`
+
 .cpp.o:
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
@@ -687,6 +702,7 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/varval-AlignedContig.Po
 	-rm -f ./$(DEPDIR)/varval-AlignmentFragment.Po
+	-rm -f ./$(DEPDIR)/varval-BEDPE.Po
 	-rm -f ./$(DEPDIR)/varval-BreakPoint.Po
 	-rm -f ./$(DEPDIR)/varval-DiscordantCluster.Po
 	-rm -f ./$(DEPDIR)/varval-STCoverage.Po
@@ -742,6 +758,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/varval-AlignedContig.Po
 	-rm -f ./$(DEPDIR)/varval-AlignmentFragment.Po
+	-rm -f ./$(DEPDIR)/varval-BEDPE.Po
 	-rm -f ./$(DEPDIR)/varval-BreakPoint.Po
 	-rm -f ./$(DEPDIR)/varval-DiscordantCluster.Po
 	-rm -f ./$(DEPDIR)/varval-STCoverage.Po

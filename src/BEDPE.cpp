@@ -77,10 +77,14 @@ std::string BEDPEEntry::convertToContig(SeqLib::RefGenome& ref, const SeqLib::Ba
   else
     s2 = ref.QueryRegion(gr2.ChrName(hdr), gr2.pos1, gr2.pos1 + pad);
 
-  if (gr1.strand == '-' && gr2.strand == '-')
-    return reverseComplement(s2) + s1;
-  if (gr1.strand == '+' && gr2.strand == '+')
-    return s1 + reverseComplement(s2);
+  if (gr1.strand == '-' && gr2.strand == '-') {
+    SeqLib::rcomplement(s2);
+    return s2 + s1;
+  }
+  if (gr1.strand == '+' && gr2.strand == '+') {
+    SeqLib::rcomplement(s2);
+    return s1 + s2; 
+  }
   
   return s1 + s2;
 
